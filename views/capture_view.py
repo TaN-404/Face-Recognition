@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import pyqtSignal, Qt
 
 
 class CaptureView(QWidget):
@@ -16,6 +16,7 @@ class CaptureView(QWidget):
 
         self.camera_label = QLabel("Camera feed will appear here")
         self.camera_label.setFixedSize(680, 680)
+        self.camera_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.camera_label)
 
         self.status_label = QLabel("Captured: 0 / 3")
@@ -23,18 +24,18 @@ class CaptureView(QWidget):
         layout.addWidget(self.status_label)
 
         self.capture_button = QPushButton("Capture")
-        self.capture_button.setFixedSize(680,140)
+        self.capture_button.setFixedSize(680,70)
         self.capture_button.clicked.connect(self.capture_clicked.emit)
         layout.addWidget(self.capture_button)
 
         self.confirm_button = QPushButton("Confirm & Save")
         self.confirm_button.setEnabled(False)
-        self.confirm_button.setFixedSize(680,140)
+        self.confirm_button.setFixedSize(680,70)
         self.confirm_button.clicked.connect(self.confirm_clicked.emit)
         layout.addWidget(self.confirm_button)
 
         self.back_button = QPushButton("Back to Main")
-        self.back_button.setFixedSize(680,140)
+        self.back_button.setFixedSize(680,70)
         self.back_button.clicked.connect(self.back_clicked.emit)
         layout.addWidget(self.back_button)
 
