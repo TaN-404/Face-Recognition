@@ -1,0 +1,25 @@
+face_attendance_app/
+├── main.py
+├── core/
+│   ├── model.py             ← business logic (data, face detection etc.)
+│   └── storage.py           ← handles DB / file I/O
+├── ui/
+│   ├── main_window.py       ← sets up QStackedWidget navigation
+│   └── theme.qss            ← optional for styling
+├── views/                   ← All UI classes
+│   ├── home_view.py
+│   ├── new_user_view.py
+│   ├── capture_view.py
+│   ├── confirm_view.py
+│   ├── users_view.py
+│   └── history_view.py
+├── presenters/              ← All presenters
+│   ├── home_presenter.py
+│   ├── new_user_presenter.py
+│   ├── capture_presenter.py
+│   ├── confirm_presenter.py
+│   ├── users_presenter.py
+│   └── history_presenter.py
+└── models/
+    ├── user_model.py        ← manages user data
+    └── history_model.py  ← manages login events
