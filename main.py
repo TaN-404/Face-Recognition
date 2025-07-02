@@ -45,7 +45,7 @@ class MainWindow(QWidget):
         # Connect presenter
         self.home_presenter = HomePresenter(self.home_view, self.switch_page)
         self.new_user_presenter = NewUserPresenter(self.new_user_view, self.switch_page)
-        self.capture_presenter = CapturePresenter(self.capture_view, self.switch_page)
+        # self.capture_presenter = CapturePresenter(self.capture_view, self.switch_page)
         
 
     def switch_page(self, page_name, data=None):
@@ -56,8 +56,10 @@ class MainWindow(QWidget):
             self.stack.setCurrentWidget(self.new_user_view)
             self.new_user_view.clear_fields()
         elif page_name == "capture":
-            self.stack.setCurrentWidget(self.capture_placeholder)
-            print("Received user data:", data)  # test print
+            self.capture_view = CaptureView()
+            self.stack.addWidget(self.capture_view)
+            self.stack.setCurrentWidget(self.capture_view)
+            self.capture_presenter = CapturePresenter(self.capture_view, self.switch_page, data)
 
 
 if __name__ == "__main__":
