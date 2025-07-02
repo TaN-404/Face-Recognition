@@ -20,7 +20,7 @@ class CaptureView(QWidget):
         layout.addWidget(self.camera_label)
 
         self.status_label = QLabel("Captured: 0 / 3")
-        self.status_label.setFixedSize(50,50)
+        self.status_label.setFixedSize(680,50)
         layout.addWidget(self.status_label)
 
         self.capture_button = QPushButton("Capture")

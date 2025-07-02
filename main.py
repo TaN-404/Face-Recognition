@@ -1,4 +1,5 @@
 import sys
+from insightface.app import FaceAnalysis
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QStackedWidget
 from PyQt5.QtWidgets import QLabel
 
