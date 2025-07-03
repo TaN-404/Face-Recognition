@@ -43,9 +43,7 @@ class HomeView(QWidget):
         # self.timer = QTimer()
         # self.timer.timeout.connect(self.update_camera)
 
-    # def start_camera(self):
-    #     self.cap = cv2.VideoCapture(0)
-    #     self.timer.start(30)
+
 
     # def stop_camera(self):
     #     self.timer.stop()

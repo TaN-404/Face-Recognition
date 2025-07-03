@@ -8,12 +8,14 @@ from PyQt5.QtWidgets import QLabel
 from views.home_view import HomeView
 from views.new_user_view import NewUserView
 from views.capture_view import CaptureView
+from views.success_view import SuccessView
 
 
 """PRESENTERS"""
 from presenters.new_user_presenter import NewUserPresenter
 from presenters.home_presenter import HomePresenter
 from presenters.capture_presenter import CapturePresenter
+from presenters.success_presenter import SuccessPresenter
 
 # Other views/presenters will be imported as you build them
 
@@ -33,34 +35,55 @@ class MainWindow(QWidget):
 
         # Placeholder for new user
 
-        self.new_user_view = NewUserView()
-        self.stack.addWidget(self.new_user_view)
+        # self.new_user_view = NewUserView()
+        # self.stack.addWidget(self.new_user_view)
 
         self.users_placeholder = QLabel("Users Page (To Be Built)")
         self.stack.addWidget(self.users_placeholder)  # index 2
 
-        self.capture_view = CaptureView()
-        self.stack.addWidget(self.capture_view)
+        # self.capture_view = CaptureView()
+        # self.stack.addWidget(self.capture_view)
+
+        # self.success_view = SuccessView()
+        # self.stack.addWidget(self.success_view)
 
 
         # Connect presenter
         self.home_presenter = HomePresenter(self.home_view, self.switch_page)
-        self.new_user_presenter = NewUserPresenter(self.new_user_view, self.switch_page)
+        # self.new_user_presenter = NewUserPresenter(self.new_user_view, self.switch_page)
         # self.capture_presenter = CapturePresenter(self.capture_view, self.switch_page)
         
 
     def switch_page(self, page_name, data=None):
         if page_name == "home":
+            self.home_view = HomeView()
+            self.stack.addWidget(self.home_view)
             self.stack.setCurrentWidget(self.home_view)
-            self.home_view.start_camera()
+            self.home_presenter.start_camera()
+            self.home_presenter = HomePresenter(self.home_view, self.switch_page)
+
+
         elif page_name == "new_user":
+            self.new_user_view = NewUserView()
+            self.stack.addWidget(self.new_user_view)
             self.stack.setCurrentWidget(self.new_user_view)
             self.new_user_view.clear_fields()
+            self.new_user_presenter = NewUserPresenter(self.new_user_view, self.switch_page)
+
+
         elif page_name == "capture":
             self.capture_view = CaptureView()
             self.stack.addWidget(self.capture_view)
             self.stack.setCurrentWidget(self.capture_view)
             self.capture_presenter = CapturePresenter(self.capture_view, self.switch_page, data)
+
+
+        elif page_name == "success":
+            self.success_view = SuccessView()
+            self.stack.addWidget(self.success_view)
+            self.stack.setCurrentWidget(self.success_view)
+            self.succes_presenter = SuccessPresenter(self.success_view, self.switch_page, data)
+
 
 
 if __name__ == "__main__":

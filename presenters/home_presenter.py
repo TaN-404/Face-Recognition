@@ -44,11 +44,23 @@ class HomePresenter:
         print(is_match)
         print(similarity)
 
+        self.navigator("success", similarity)
+
 
     def go_to_new_user(self):
-        self.view.stop_camera()
+        self.stop_camera()
         self.navigator("new_user")
 
     def go_to_users(self):
-        self.view.stop_camera()
+        self.stop_camera()
         self.navigator("users")  # placeholder
+    
+    def stop_camera(self):
+        self.timer.stop()
+        if self.cap:
+            self.cap.release()
+            self.cap = None
+
+    def start_camera(self):
+        self.cap = cv2.VideoCapture(0)
+        self.timer.start(30)
