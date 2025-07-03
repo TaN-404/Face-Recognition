@@ -20,7 +20,7 @@ class HomePresenter:
         
         self.view.login_btn_clicked.connect(self.login_function)
         self.view.new_user_clicked.connect(self.go_to_new_user)
-        self.view.view_users_clicked.connect(self.go_to_users)  # for now
+        self.view.option_btn_clicked.connect(self.go_to_options)  # for now
 
 
     def update_camera_frame(self):
@@ -55,9 +55,9 @@ class HomePresenter:
         self.stop_camera()
         self.navigator("new_user")
 
-    def go_to_users(self):
+    def go_to_options(self):
         self.stop_camera()
-        self.navigator("users")  # placeholder
+        self.navigator("option") 
     
     def stop_camera(self):
         self.timer.stop()

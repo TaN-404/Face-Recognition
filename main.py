@@ -9,6 +9,7 @@ from views.home_view import HomeView
 from views.new_user_view import NewUserView
 from views.capture_view import CaptureView
 from views.success_view import SuccessView
+from views.option_view import OptionView
 
 
 """PRESENTERS"""
@@ -16,6 +17,7 @@ from presenters.new_user_presenter import NewUserPresenter
 from presenters.home_presenter import HomePresenter
 from presenters.capture_presenter import CapturePresenter
 from presenters.success_presenter import SuccessPresenter
+from presenters.option_presenter import OptionPresenter
 
 # Other views/presenters will be imported as you build them
 
@@ -83,6 +85,12 @@ class MainWindow(QWidget):
             self.stack.addWidget(self.success_view)
             self.stack.setCurrentWidget(self.success_view)
             self.succes_presenter = SuccessPresenter(self.success_view, self.switch_page, data)
+
+        elif page_name == "option":
+            self.option_view = OptionView()
+            self.stack.addWidget(self.option_view)
+            self.stack.setCurrentWidget(self.option_view)
+            self.option_presenter = OptionPresenter(self.option_view, self.switch_page)
 
 
 

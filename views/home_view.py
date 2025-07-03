@@ -7,7 +7,7 @@ import cv2
 class HomeView(QWidget):
     login_btn_clicked = pyqtSignal()
     new_user_clicked = pyqtSignal()
-    view_users_clicked = pyqtSignal()
+    option_btn_clicked = pyqtSignal()
     login_history_clicked = pyqtSignal()
 
     def __init__(self):
@@ -32,7 +32,7 @@ class HomeView(QWidget):
 
         self.login_btn.clicked.connect(self.login_btn_clicked)
         self.new_user_btn.clicked.connect(self.new_user_clicked)
-        self.options_btn.clicked.connect(self.view_users_clicked)  # for now\
+        self.options_btn.clicked.connect(self.option_btn_clicked)  # for now\
         btn_layout.addWidget(self.login_btn)
         btn_layout.addWidget(self.new_user_btn)
         btn_layout.addWidget(self.options_btn)

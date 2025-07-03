@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QLabel, QHBoxLayout
-from PyQt5.QtCore import pyqtSignal
-
+from PyQt5.QtCore import pyqtSignal, Qt
 
 class NewUserView(QWidget):
     proceed_clicked = pyqtSignal(dict)
@@ -14,6 +13,7 @@ class NewUserView(QWidget):
 
         self.title = QLabel("Register New User")
         self.title.setFixedSize(680,50)
+        self.title.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.title)
 
         self.fname_input = QLineEdit()
