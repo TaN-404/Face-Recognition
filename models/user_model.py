@@ -143,7 +143,7 @@ class UserModel:
                     # Compare embeddings (using numpy for example)
                     if np.array_equal(stored_embed, target_embedding):
                         full_name = f"{fname} {lname}" 
-                        return full_name
+                        return full_name, uid,fname, lname
                         
                 except pickle.UnpicklingError:
                     continue
@@ -153,3 +153,6 @@ class UserModel:
         except sqlite3.Error as e:
             print(f"Database error: {e}")
             return None
+        
+
+        

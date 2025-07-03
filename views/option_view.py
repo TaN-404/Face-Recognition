@@ -30,7 +30,7 @@ class OptionView(QWidget):
         self.edit_users_btn.clicked.connect(self.edit_users_clicked.emit)
         layout.addWidget(self.edit_users_btn)
 
-        self.clear_db_btn = QPushButton("Login History")
+        self.clear_db_btn = QPushButton("Clear Database")
         self.clear_db_btn.setFixedSize(680,70)
         self.clear_db_btn.clicked.connect(self.clear_db_clicked.emit)
         layout.addWidget(self.clear_db_btn)

@@ -3,9 +3,11 @@ from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QImage, QPixmap
 import os
 from models.user_model import UserModel
+from models.history_model import LoginHistoryModel
 from core.embed import embed_image
 from core.compare import compare_faces
 import numpy as np
+
 
 class HomePresenter:
     def __init__(self, view, navigator):
@@ -36,6 +38,7 @@ class HomePresenter:
     
     def login_function(self):
         user_model = UserModel()
+        login_history = LoginHistoryModel()
         embedding = embed_image(self.current_frame)
         embedding_avg = user_model.get_all_avg_embeddings()
         # compare_faces(embedding, embedding_avg)
@@ -44,9 +47,11 @@ class HomePresenter:
         print(is_match)
         print(similarity)
 
-        fullname = user_model.get_username_from_embedding(average_e)
+        fullname, uid, fname, lname = user_model.get_username_from_embedding(average_e)
 
         data = f"{fullname} Logged in"
+
+        login_history.add_login_entry(uid, fname, lname)
 
         self.navigator("success", data)
 

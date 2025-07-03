@@ -10,8 +10,12 @@ class OptionPresenter:
         self.navigator = navigator
 
         self.view.back_button_clicked.connect(self.go_to_home)
+        self.view.login_history_clicked.connect(self.go_to_login_history)
 
 
     def go_to_home(self):
-            print("back button pressed")
-            self.navigator("home")
+        print("back button pressed")
+        self.navigator("home")
+
+    def go_to_login_history(self):
+         self.navigator("login_history")
