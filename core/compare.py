@@ -13,7 +13,8 @@ def compare_faces(embedding, embedding_list, threshold=0.6):
         similarity = np.dot(embedding, embedding_list[avg]) / (np.linalg.norm(embedding) * np.linalg.norm(embedding_list[avg]))
         is_match = similarity > threshold
         if is_match:
+            average_e = embedding_list[avg]
             break
     
     
-    return is_match, similarity
+    return is_match, similarity, average_e

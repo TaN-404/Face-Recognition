@@ -43,6 +43,7 @@ class CaptureView(QWidget):
         self.status_label.setText(f"Captured: {count} / 3")
         if count == 3:
             self.confirm_button.setEnabled(True)
+            self.capture_button.setEnabled(False)
 
     def set_camera_frame(self, pixmap: QPixmap):
         self.camera_label.setPixmap(pixmap)

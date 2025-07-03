@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 class LoginHistoryModel:
-    def __init__(self, db_path="data/attendance.db"):
+    def __init__(self, db_path="data/face-recognition-db.db"):
         self.conn = sqlite3.connect(db_path)
         self._create_login_table()
 
@@ -36,3 +36,18 @@ class LoginHistoryModel:
     def get_all_entries(self):
         cur = self.conn.cursor()
         return cur.execute("SELECT uid, fname, lname, date, time FROM login_history ORDER BY id DESC").fetchall()
+    
+    def clear_login_history(self):
+        cursor = self.conn.cursor()
+        
+        # Delete all records
+        cursor.execute(f"DELETE FROM user_table;")
+        
+        # Reset auto-increment counter (if table has INTEGER PRIMARY KEY)
+        cursor.execute(f"DELETE FROM sqlite_sequence WHERE name='user_table';")
+        
+        # Compact database
+        cursor.execute("VACUUM;")
+        
+        self.conn.commit()
+        self.conn.close()

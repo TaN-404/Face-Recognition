@@ -1,10 +1,11 @@
 import sqlite3
 import pickle
 import os
+import numpy as np
 
 
 class UserModel:
-    def __init__(self, db_path="data/attendance.db"):
+    def __init__(self, db_path="data/face-recognition-db.db"):
         self.conn = sqlite3.connect(db_path)
         self._create_user_table()
 
@@ -70,5 +71,85 @@ class UserModel:
                 except Exception as e:
                     print(f"Error unpickling embedding: {e}")
         
-        self.conn.close()
         return embeddings_list
+    
+
+    def drop_user_table(self):
+        cursor = self.conn.cursor()
+        
+        # Delete all records
+        cursor.execute(f"DELETE FROM user_table;")
+        
+        # Reset auto-increment counter (if table has INTEGER PRIMARY KEY)
+        cursor.execute(f"DELETE FROM sqlite_sequence WHERE name='user_table';")
+        
+        # Compact database
+        cursor.execute("VACUUM;")
+        
+        self.conn.commit()
+
+    def get_user_from_embedding(self, target_embedding):
+
+        try:
+            print("step 1")
+            cursor = self.conn.cursor()
+            
+            # Search through all embeddings
+            cursor.execute("SELECT uid, fname, lname, avg_embedding FROM user_table")
+            
+            for row in cursor.fetchall():
+                uid, fname, lname, pickled_embed = row
+                try:
+                    print("step 2")
+                    # Unpickle the stored embedding
+                    stored_embed = pickle.loads(pickled_embed)
+                    print(stored_embed)
+                    
+                    # Compare embeddings (using numpy for example)
+                    if np.array_equal(stored_embed, target_embedding):
+                        return {
+                            'uid': uid,
+                            'fname': fname,
+                            'lname': lname,
+                            'match': True
+                        }
+                        
+                except pickle.UnpicklingError:
+                    continue
+                    
+            return None
+            
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+            return None
+
+
+    def get_username_from_embedding(self, target_embedding):
+
+        try:
+            ("step 1")
+            cursor = self.conn.cursor()
+            
+            # Search through all embeddings
+            cursor.execute("SELECT uid, fname, lname, avg_embedding FROM user_table")
+            
+            for row in cursor.fetchall():
+                uid, fname, lname, pickled_embed = row
+                try:
+                    ("step 2")
+                    # Unpickle the stored embedding
+                    stored_embed = pickle.loads(pickled_embed)
+                    
+                    # Compare embeddings (using numpy for example)
+                    if np.array_equal(stored_embed, target_embedding):
+                        full_name = f"{fname} {lname}" 
+                        return full_name
+                        
+                except pickle.UnpicklingError:
+                    continue
+                    
+            return None
+            
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+            return None

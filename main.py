@@ -79,7 +79,7 @@ class MainWindow(QWidget):
 
 
         elif page_name == "success":
-            self.success_view = SuccessView()
+            self.success_view = SuccessView(data)
             self.stack.addWidget(self.success_view)
             self.stack.setCurrentWidget(self.success_view)
             self.succes_presenter = SuccessPresenter(self.success_view, self.switch_page, data)

@@ -40,11 +40,15 @@ class HomePresenter:
         embedding_avg = user_model.get_all_avg_embeddings()
         # compare_faces(embedding, embedding_avg)
 
-        is_match, similarity = compare_faces(embedding, embedding_avg)
+        is_match, similarity, average_e = compare_faces(embedding, embedding_avg)
         print(is_match)
         print(similarity)
 
-        self.navigator("success", similarity)
+        fullname = user_model.get_username_from_embedding(average_e)
+
+        data = f"{fullname} Logged in"
+
+        self.navigator("success", data)
 
 
     def go_to_new_user(self):

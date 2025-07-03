@@ -27,7 +27,7 @@ class CapturePresenter:
 
         self.view.capture_clicked.connect(self.capture_face)
         self.view.confirm_clicked.connect(self.save_user)
-        self.view.back_clicked.connect(self.exit_to_main)
+        self.view.back_clicked.connect(self.back_to_main)
 
     def update_camera_frame(self):
         ret, frame = self.cap.read()
@@ -71,10 +71,15 @@ class CapturePresenter:
             avg_embedding=avg_embedding
         )
 
-        print("✅ User saved successfully!")
-        self.exit_to_main()
+        fullname = f"{self.user_data["fname"]} {self.user_data["lname"]}"
 
-    def exit_to_main(self):
+        print("✅ User saved successfully!")
+        self.timer.stop()
+        self.cap.release()
+        data = f"{fullname} Registered"
+        self.navigator("success", data)
+
+    def back_to_main(self):
         self.timer.stop()
         self.cap.release()
         self.navigator("home")
