@@ -84,6 +84,7 @@ if __name__ == "__main__":
     # Extract embeddings
     embedding, bbox = extract_face_embeddings(image_path)
     embedding2, bbox2 = extract_face_embeddings(image2_path)
+
     
     if embedding is not None:
         print(f"✅ Face detected!")
@@ -99,8 +100,7 @@ if __name__ == "__main__":
 
     
     match , sim = compare_faces(embedding, embedding2)
-    print(match)
-    print(sim)
+    print(embedding)
 
     
     

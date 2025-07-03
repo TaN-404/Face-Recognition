@@ -50,3 +50,25 @@ class UserModel:
         cur = self.conn.cursor()
         row = cur.execute("SELECT avg_embedding FROM user_table WHERE uid=?", (uid,)).fetchone()
         return pickle.loads(row[0]) if row else None
+    
+
+
+    def get_all_avg_embeddings(self): 
+        
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT avg_embedding FROM user_table")
+        
+        embeddings_list = []
+
+        for row in cursor.fetchall():
+            pickled_data = row[0]
+            
+            if pickled_data is not None:
+                try:
+                    embedding = pickle.loads(pickled_data)
+                    embeddings_list.append(embedding)
+                except Exception as e:
+                    print(f"Error unpickling embedding: {e}")
+        
+        self.conn.close()
+        return embeddings_list

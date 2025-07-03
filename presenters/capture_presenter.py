@@ -41,7 +41,7 @@ class CapturePresenter:
             self.current_frame = frame
 
     def capture_face(self):
-        embeded_image, image = embed_image(self.current_frame)
+        embeded_image = embed_image(self.current_frame)
 
         self.captures.append(self.current_frame.copy())
         self.embeddings.append(embeded_image)

@@ -18,13 +18,13 @@ def embed_image(image):
     faces = app.get(image)
     if len(faces) == 0:
         print("No faces detected in the image")
-        return None, None
+        return None
     
     face = faces[0]
     embedding = face.embedding  
     # bbox = face.bbox 
     # cv2.imwrite(output_path, image)
-    return embedding, image
+    return embedding
 
 
 embed_image(img)
