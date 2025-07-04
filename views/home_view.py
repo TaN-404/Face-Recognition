@@ -1,8 +1,11 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QHBoxLayout
-from PyQt5.QtGui import QPixmap, QImage
+from PyQt5.QtGui import QPixmap, QImage, QMovie, QColor, QPainter
 from PyQt5.QtCore import QTimer, pyqtSignal, Qt
 import cv2
 
+
+"""OVERLAYS"""
+from overlay.loading_overlay import LoadingOverlay
 
 class HomeView(QWidget):
     login_btn_clicked = pyqtSignal()
@@ -19,6 +22,11 @@ class HomeView(QWidget):
         self.camera_label = QLabel("Camera Feed")
         self.camera_label.setFixedSize(680, 680)
         self.camera_label.setAlignment(Qt.AlignCenter)
+
+        self.movie = QMovie("assets/gifs/loading.gif")
+        self.movie.setCacheMode(QMovie.CacheAll)
+        self.camera_label.setMovie(self.movie)
+        self.movie.start()
         layout.addWidget(self.camera_label)
 
         # Buttons
@@ -63,3 +71,4 @@ class HomeView(QWidget):
 
     def set_camera_frame(self, pixmap: QPixmap):
         self.camera_label.setPixmap(pixmap)
+        self.movie.stop()

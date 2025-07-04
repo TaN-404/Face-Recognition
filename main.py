@@ -3,6 +3,12 @@ from insightface.app import FaceAnalysis
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QStackedWidget
 from PyQt5.QtWidgets import QLabel
 
+from PyQt5.QtGui import QPixmap, QImage, QMovie
+from PyQt5.QtCore import QTimer, pyqtSignal, Qt
+
+"""OVERLAYS"""
+from overlay.loading_overlay import LoadingOverlay
+
 
 """VIEWS"""
 from views.home_view import HomeView
@@ -42,88 +48,77 @@ class MainWindow(QWidget):
 
         # Instantiate views
         self.home_view = HomeView()
-        self.stack.addWidget(self.home_view)  # index 0
-
-        # Placeholder for new user
-
-        # self.new_user_view = NewUserView()
-        # self.stack.addWidget(self.new_user_view)
-
-        self.users_placeholder = QLabel("Users Page (To Be Built)")
-        self.stack.addWidget(self.users_placeholder)  # index 2
-
-        # self.capture_view = CaptureView()
-        # self.stack.addWidget(self.capture_view)
-
-        # self.success_view = SuccessView()
-        # self.stack.addWidget(self.success_view)
-
-
-        # Connect presenter
+        self.stack.addWidget(self.home_view)
         self.home_presenter = HomePresenter(self.home_view, self.switch_page)
-        # self.new_user_presenter = NewUserPresenter(self.new_user_view, self.switch_page)
-        # self.capture_presenter = CapturePresenter(self.capture_view, self.switch_page)
-        
+
+        # self.loading_overlay = LoadingOverlay(self)
+        # self.loading_overlay.setFixedSize(self.size())
+        # self.loading_overlay.hide()
+        # self.loading_overlay.lower() 
 
     def switch_page(self, page_name, data=None):
-        if page_name == "home":
-            self.home_view = HomeView()
-            self.stack.addWidget(self.home_view)
-            self.stack.setCurrentWidget(self.home_view)
-            self.home_presenter.start_camera()
-            self.home_presenter = HomePresenter(self.home_view, self.switch_page)
+        QApplication.setOverrideCursor(Qt.WaitCursor)
+        try:
+            if page_name == "home":
+                self.home_view = HomeView()
+                self.stack.addWidget(self.home_view)
+                self.stack.setCurrentWidget(self.home_view)
+                self.home_presenter.start_camera()
+                self.home_presenter = HomePresenter(self.home_view, self.switch_page)
 
 
-        elif page_name == "new_user":
-            self.new_user_view = NewUserView()
-            self.stack.addWidget(self.new_user_view)
-            self.stack.setCurrentWidget(self.new_user_view)
-            self.new_user_view.clear_fields()
-            self.new_user_presenter = NewUserPresenter(self.new_user_view, self.switch_page)
+            elif page_name == "new_user":
+                self.new_user_view = NewUserView()
+                self.stack.addWidget(self.new_user_view)
+                self.stack.setCurrentWidget(self.new_user_view)
+                self.new_user_view.clear_fields()
+                self.new_user_presenter = NewUserPresenter(self.new_user_view, self.switch_page)
 
 
-        elif page_name == "capture":
-            self.capture_view = CaptureView()
-            self.stack.addWidget(self.capture_view)
-            self.stack.setCurrentWidget(self.capture_view)
-            self.capture_presenter = CapturePresenter(self.capture_view, self.switch_page, data)
+            elif page_name == "capture":
+                self.capture_view = CaptureView()
+                self.stack.addWidget(self.capture_view)
+                self.stack.setCurrentWidget(self.capture_view)
+                self.capture_presenter = CapturePresenter(self.capture_view, self.switch_page, data)
 
 
-        elif page_name == "success":
-            self.success_view = SuccessView(data)
-            self.stack.addWidget(self.success_view)
-            self.stack.setCurrentWidget(self.success_view)
-            self.succes_presenter = SuccessPresenter(self.success_view, self.switch_page, data)
+            elif page_name == "success":
+                self.success_view = SuccessView(data)
+                self.stack.addWidget(self.success_view)
+                self.stack.setCurrentWidget(self.success_view)
+                self.succes_presenter = SuccessPresenter(self.success_view, self.switch_page, data)
 
-        elif page_name == "option":
-            self.option_view = OptionView()
-            self.stack.addWidget(self.option_view)
-            self.stack.setCurrentWidget(self.option_view)
-            self.option_presenter = OptionPresenter(self.option_view, self.switch_page)
+            elif page_name == "option":
+                self.option_view = OptionView()
+                self.stack.addWidget(self.option_view)
+                self.stack.setCurrentWidget(self.option_view)
+                self.option_presenter = OptionPresenter(self.option_view, self.switch_page)
 
-        elif page_name == "login_history":
-            self.login_history_view = LoginHistoryView()
-            self.stack.addWidget(self.login_history_view)
-            self.stack.setCurrentWidget(self.login_history_view)
-            self.login_history_presenter = LoginHistoryPresenter(self.login_history_view, self.switch_page)
-        
-        elif page_name == "users_list":
-            self.user_list_view = UserListView()
-            self.stack.addWidget(self.user_list_view)
-            self.stack.setCurrentWidget(self.user_list_view)
-            self.user_list_presenter = UserListPresenter(self.user_list_view, self.switch_page)
+            elif page_name == "login_history":
+                self.login_history_view = LoginHistoryView()
+                self.stack.addWidget(self.login_history_view)
+                self.stack.setCurrentWidget(self.login_history_view)
+                self.login_history_presenter = LoginHistoryPresenter(self.login_history_view, self.switch_page)
+            
+            elif page_name == "users_list":
+                self.user_list_view = UserListView()
+                self.stack.addWidget(self.user_list_view)
+                self.stack.setCurrentWidget(self.user_list_view)
+                self.user_list_presenter = UserListPresenter(self.user_list_view, self.switch_page)
 
-        elif page_name == "user_management":
-            self.user_management_view = UserManagementView()
-            self.stack.addWidget(self.user_management_view)
-            self.stack.setCurrentWidget(self.user_management_view)
-            self.user_management_presenter = UserManagementPresenter(self.user_management_view,self.switch_page)
+            elif page_name == "user_management":
+                self.user_management_view = UserManagementView()
+                self.stack.addWidget(self.user_management_view)
+                self.stack.setCurrentWidget(self.user_management_view)
+                self.user_management_presenter = UserManagementPresenter(self.user_management_view,self.switch_page)
 
-        elif page_name == "edit_user":
-            self.edit_user_view = EditUserView(data)
-            self.stack.addWidget(self.edit_user_view)
-            self.stack.setCurrentWidget(self.edit_user_view)
-            self.edit_user_presenter = EditUserPresenter(self.edit_user_view, self.switch_page, data)
+            elif page_name == "edit_user":
+                self.edit_user_view = EditUserView(data)
+                self.stack.addWidget(self.edit_user_view)
+                self.stack.setCurrentWidget(self.edit_user_view)
+                self.edit_user_presenter = EditUserPresenter(self.edit_user_view, self.switch_page, data)
+        finally:
+            QApplication.restoreOverrideCursor()
 
 
 
