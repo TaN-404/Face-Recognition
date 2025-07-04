@@ -14,7 +14,7 @@ class OptionPresenter:
         self.view.back_button_clicked.connect(self.go_to_home)
         self.view.login_history_clicked.connect(self.go_to_login_history)
         self.view.user_list_clicked.connect(self.go_to_user_list)
-        self.view.clear_db_clicked.connect(self.clear_db)
+        self.view.user_management_clicked.connect(self.go_to_user_management)
 
 
     def go_to_home(self):
@@ -27,7 +27,7 @@ class OptionPresenter:
     def go_to_user_list(self):
         print("user list clicked")
         self.navigator("users_list")
-    
-    def clear_db(self):
-        if self.view.confirm_action():
-            self.user_model.drop_user_table()
+
+
+    def go_to_user_management(self):
+        self.navigator("user_management")

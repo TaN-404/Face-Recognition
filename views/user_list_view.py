@@ -5,6 +5,7 @@ from PyQt5.QtCore import Qt, pyqtSignal
 
 class UserListView(QWidget):
     home_btn_clicked = pyqtSignal()
+    back_btn_clicked = pyqtSignal()
     
     def __init__(self):
         super().__init__()
@@ -14,8 +15,13 @@ class UserListView(QWidget):
         # Table View
         self.table_view = QTableView()
         self.table_view.setSortingEnabled(True)
-        self.table_view.setFixedSize(680, 940)
+        self.table_view.setFixedSize(680, 770)
         layout.addWidget(self.table_view)
+
+        self.back_btn = QPushButton("Back")
+        self.back_btn.setFixedSize(680,70)
+        self.back_btn.clicked.connect(self.back_btn_clicked.emit)
+        layout.addWidget(self.back_btn)
 
         # Home Button
         self.home_btn = QPushButton("Back to Main")
@@ -51,15 +57,31 @@ class UserListView(QWidget):
             "Registration Time"
         ])
         
-        for row in users:
-            items = [
-                QStandardItem(str(row[0])),  # UID
-                QStandardItem(row[1]),       # First Name
-                QStandardItem(row[2]),       # Last Name
-                QStandardItem(row[3]),       # Date
-                QStandardItem(row[4])        # Time
-            ]
-            model.appendRow(items)
+        for row in users:   
+            uid_item = QStandardItem(str(row[0]))  # UID
+            uid_item.setEditable(False)
+
+            fname_item = QStandardItem(row[1]) 
+            fname_item.setEditable(False)
+               # First Name
+            lname_item = QStandardItem(row[2])  
+            lname_item.setEditable(False)
+              # Last Name
+            date_item = QStandardItem(row[3])  
+            date_item.setEditable(False)
+               # Date
+            time_item = QStandardItem(row[4])  
+            time_item.setEditable(False)
+                 # Time
+            model.appendRow(
+                [
+                    uid_item,
+                    fname_item,
+                    lname_item,
+                    date_item,
+                    time_item
+                 ]
+            )
 
         self.table_view.setModel(model)
         self.table_view.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)

@@ -41,13 +41,9 @@ class LoginHistoryModel:
         cursor = self.conn.cursor()
         
         # Delete all records
-        cursor.execute(f"DELETE FROM user_table;")
+        cursor.execute(f"DELETE FROM login_history;")
         
         # Reset auto-increment counter (if table has INTEGER PRIMARY KEY)
-        cursor.execute(f"DELETE FROM sqlite_sequence WHERE name='user_table';")
-        
-        # Compact database
-        cursor.execute("VACUUM;")
+        cursor.execute(f"DELETE FROM sqlite_sequence WHERE name='login_history';")
         
         self.conn.commit()
-        self.conn.close()

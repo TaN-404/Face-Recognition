@@ -3,6 +3,7 @@ import pickle
 import os
 import numpy as np
 from datetime import datetime
+import shutil
 
 
 class UserModel:
@@ -91,6 +92,11 @@ class UserModel:
         
         # Reset auto-increment counter (if table has INTEGER PRIMARY KEY)
         cursor.execute(f"DELETE FROM sqlite_sequence WHERE name='user_table';")
+
+        folder_name = "data/images"
+        if os.path.exists(folder_name) and os.path.isdir(folder_name):
+            shutil.rmtree(folder_name)
+            print(f"Folder '{folder_name}' deleted.")
         
         self.conn.commit()
 
@@ -159,6 +165,58 @@ class UserModel:
         except sqlite3.Error as e:
             print(f"Database error: {e}")
             return None
-        
 
-        
+
+    def search_by_uid(self, uid):
+        cur = self.conn.cursor()
+        cur.execute("SELECT uid, fname, lname FROM user_table WHERE uid LIKE ?", (f"%{uid}%",))
+        return [{'uid': row[0], 'fname': row[1], 'lname': row[2]} for row in cur.fetchall()]
+
+    def search_by_fname(self, fname):
+        cur = self.conn.cursor()
+        cur.execute("SELECT uid, fname, lname FROM user_table WHERE fname LIKE ?", (f"%{fname}%",))
+        return [{'uid': row[0], 'fname': row[1], 'lname': row[2]} for row in cur.fetchall()]
+
+    def search_by_lname(self, lname):
+        cur = self.conn.cursor()
+        cur.execute("SELECT uid, fname, lname FROM user_table WHERE lname LIKE ?", (f"%{lname}%",))
+        return [{'uid': row[0], 'fname': row[1], 'lname': row[2]} for row in cur.fetchall()]
+
+    def search_all_fields(self, text):
+        cur = self.conn.cursor()
+        cur.execute("""
+            SELECT uid, fname, lname FROM user_table 
+            WHERE uid LIKE ? OR fname LIKE ? OR lname LIKE ?
+        """, (f"%{text}%", f"%{text}%", f"%{text}%"))
+        return [{'uid': row[0], 'fname': row[1], 'lname': row[2]} for row in cur.fetchall()]
+
+    def delete_user(self, uid):
+        try:
+            cur = self.conn.cursor()
+            cur.execute("DELETE FROM user_table WHERE uid = ?", (uid,))
+            self.conn.commit()
+            path = "data/images"
+            folder_name = f"{path}/{uid}"
+            if os.path.exists(folder_name) and os.path.isdir(folder_name):
+                shutil.rmtree(folder_name)
+                print(f"Folder '{folder_name}' deleted.")
+            return cur.rowcount > 0
+        except Exception as e:
+            print(f"Error deleting user: {e}")
+            return False
+
+    def update_user(self, uid, fname, lname):
+        try:
+            cur = self.conn.cursor()
+            cur.execute("""
+                UPDATE user_table 
+                SET fname = ?, lname = ? 
+                WHERE uid = ?
+            """, (fname, lname, uid))
+            self.conn.commit()
+            return cur.rowcount > 0
+        except Exception as e:
+            print(f"Error updating user: {e}")
+            return False
+
+            

@@ -9,6 +9,7 @@ class UserListPresenter:
 
         # Connect signals
         self.view.home_btn_clicked.connect(self.go_to_home)
+        self.view.back_btn_clicked.connect(self.go_back)
         
         # Initialize data
         self.load_data()
@@ -29,3 +30,6 @@ class UserListPresenter:
         """Handle navigation back to home"""
         print("Back button pressed")
         self.navigator("home")
+
+    def go_back(self):
+        self.navigator("option")

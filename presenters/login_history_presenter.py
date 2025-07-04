@@ -6,12 +6,22 @@ class LoginHistoryPresenter:
         self.view = view
         self.navigator = navigator
         self.history_model = LoginHistoryModel()
+        
 
         # Connect signals
         self.view.home_btn_clicked.connect(self.go_to_home)
+        self.view.back_btn_clicked.connect(self.go_back)
+        self.view.clear_history_clicked.connect(self.clear_history)
         
         # Initialize data
         self.load_data()
+
+    def clear_history(self):
+        if self.view.confirm_action():
+            self.history_model.clear_login_history()
+            self.navigator("login_history")
+            # entries = self.load_data()
+            # self.view.display_data(entries)
 
     def load_data(self):
         """Load and display login history data"""
@@ -19,6 +29,7 @@ class LoginHistoryPresenter:
             entries = self.history_model.get_all_entries()
             if entries:  # Only display if we have data
                 self.view.display_data(entries)
+                # return entries
             else:
                 print("No login history entries found")
         except Exception as e:
@@ -29,3 +40,6 @@ class LoginHistoryPresenter:
         """Handle navigation back to home"""
         print("Back button pressed")
         self.navigator("home")
+
+    def go_back(self):
+        self.navigator("option")

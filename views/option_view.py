@@ -6,8 +6,7 @@ from PyQt5.QtCore import pyqtSignal, Qt
 class OptionView(QWidget):
     login_history_clicked = pyqtSignal()
     user_list_clicked = pyqtSignal()
-    edit_users_clicked = pyqtSignal()
-    clear_db_clicked = pyqtSignal()
+    user_management_clicked = pyqtSignal()
     back_button_clicked = pyqtSignal()
     def __init__(self):
         super().__init__()
@@ -25,33 +24,13 @@ class OptionView(QWidget):
         self.user_list_btn.clicked.connect(self.user_list_clicked.emit)
         layout.addWidget(self.user_list_btn)
 
-        self.edit_users_btn = QPushButton("Edit Users")
-        self.edit_users_btn.setFixedSize(680,70)
-        self.edit_users_btn.clicked.connect(self.edit_users_clicked.emit)
-        layout.addWidget(self.edit_users_btn)
-
-        self.clear_db_btn = QPushButton("Clear Database")
-        self.clear_db_btn.setFixedSize(680,70)
-        self.clear_db_btn.clicked.connect(self.clear_db_clicked.emit)
-        layout.addWidget(self.clear_db_btn)
+        self.user_management_btn = QPushButton("User Management")
+        self.user_management_btn.setFixedSize(680,70)
+        self.user_management_btn.clicked.connect(self.user_management_clicked.emit)
+        layout.addWidget(self.user_management_btn)
 
         self.back_button = QPushButton("Back to Main")
         self.back_button.setFixedSize(680,70)
         self.back_button.clicked.connect(self.back_button_clicked.emit)
         layout.addWidget(self.back_button)
 
-    def confirm_action(parent=None):
-        reply = QMessageBox.question(
-            parent,
-            "Confirm",
-            "Are you sure you want to proceed?",
-            QMessageBox.Yes | QMessageBox.No,
-            QMessageBox.No
-        )
-
-        if reply == QMessageBox.Yes:
-            print("User confirmed.")
-            return True
-        else:
-            print("User cancelled.")
-            return False
