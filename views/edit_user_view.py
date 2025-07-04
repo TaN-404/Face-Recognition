@@ -2,6 +2,8 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout,
                             QLabel, QLineEdit, QPushButton, QMessageBox)
 from PyQt5.QtCore import Qt, pyqtSignal
 
+from ui.style import apply_green_button_style , apply_red_button_style
+
 class EditUserView(QWidget):
     save_clicked = pyqtSignal(dict)  # {uid, fname, lname}
     back_clicked = pyqtSignal()
@@ -39,8 +41,10 @@ class EditUserView(QWidget):
         # Buttons
         btn_layout = QHBoxLayout()
         save_btn = QPushButton("Save Changes")
+        apply_green_button_style(save_btn)
         save_btn.clicked.connect(self.handle_save)
         back_btn = QPushButton("Cancel")
+        apply_red_button_style(back_btn)
         back_btn.clicked.connect(self.back_clicked.emit)
         
         btn_layout.addWidget(save_btn)

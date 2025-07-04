@@ -3,9 +3,7 @@ from PyQt5.QtGui import QPixmap, QImage, QMovie
 from PyQt5.QtCore import QTimer, pyqtSignal, Qt
 
 
-
-
-class SuccessView(QWidget):
+class FailView(QWidget):
     home_btn_clicked = pyqtSignal()
 
     def __init__(self, data):
@@ -13,16 +11,16 @@ class SuccessView(QWidget):
         self.setFixedSize(720, 1080)
         layout = QVBoxLayout(self)
 
-        self.success_image = QLabel()
-        self.success_image.setFixedSize(650,500)
-        self.success_image.setAlignment(Qt.AlignCenter)
+        self.fail_image = QLabel()
+        self.fail_image.setFixedSize(650,500)
+        self.fail_image.setAlignment(Qt.AlignCenter)
 
-        self.image = QPixmap("assets/images/success.png")
-        self.success_image.setPixmap(self.image)
+        self.image = QPixmap("assets/images/fail.png")
+        self.fail_image.setPixmap(self.image)
 
-        layout.addWidget(self.success_image)
+        layout.addWidget(self.fail_image)
         
-        self.display_data = QLabel(data + ' Successfully')
+        self.display_data = QLabel(data)
         self.display_data.setFixedSize(650,50)
         self.display_data.setAlignment(Qt.AlignCenter)
 

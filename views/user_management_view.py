@@ -4,6 +4,10 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QTableView,
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtCore import Qt, pyqtSignal
 
+
+from ui.style import apply_green_button_style , apply_red_button_style
+
+
 class UserManagementView(QWidget):
     # Define all signals at class level
     back_clicked = pyqtSignal()
@@ -21,14 +25,14 @@ class UserManagementView(QWidget):
         search_layout = QHBoxLayout()
         self.search_field = QLineEdit()
         self.search_field.setPlaceholderText("Search by UID or Name...")
-        self.search_field.setFixedHeight(60)
+        self.search_field.setFixedSize(330,60)
         
         self.search_type = QComboBox()
         self.search_type.addItems(["UID", "First Name", "Last Name", "All"])
-        self.search_type.setFixedWidth(140)
+        self.search_type.setFixedSize(120,60)
         
         search_btn = QPushButton("Search")
-        search_btn.setFixedWidth(140)
+        search_btn.setFixedSize(130,60)
         search_btn.clicked.connect(self.on_search_clicked)  # Changed method name
         
         search_layout.addWidget(self.search_field)
@@ -38,7 +42,7 @@ class UserManagementView(QWidget):
         
         # Results Table
         self.table_view = QTableView()
-        self.table_view.setFixedSize(680, 680)
+        self.table_view.setFixedSize(650, 680)
         self.table_view.setSelectionBehavior(QTableView.SelectRows)
         self.table_view.setSelectionMode(QTableView.SingleSelection)
         layout.addWidget(self.table_view)
@@ -46,28 +50,32 @@ class UserManagementView(QWidget):
         # Action Buttons
         btn_layout = QHBoxLayout()
         self.edit_btn = QPushButton("Edit User")
-        self.edit_btn.setFixedHeight(60)
+        self.edit_btn.setFixedSize(216,60)
         self.edit_btn.setEnabled(False)
         
         self.delete_btn = QPushButton("Delete User")
-        self.delete_btn.setFixedHeight(60)
+        self.delete_btn.setFixedSize(216,60)
         self.delete_btn.setEnabled(False)
+        apply_red_button_style(self.delete_btn)
         
         self.back_btn = QPushButton("Back")
-        self.back_btn.setFixedHeight(60)
+        self.back_btn.setFixedSize(216,60)
         self.back_btn.clicked.connect(self.back_clicked.emit)
 
         self.clear_db_btn = QPushButton("Clear Database")
-        self.clear_db_btn.setFixedHeight(60)
+        self.clear_db_btn.setFixedSize(650,60)
+        apply_red_button_style(self.clear_db_btn)
         self.clear_db_btn.clicked.connect(self.clear_db_clicked.emit)
 
         
         btn_layout.addWidget(self.edit_btn)
         btn_layout.addWidget(self.delete_btn)
         btn_layout.addWidget(self.back_btn)
+        btn_layout.setContentsMargins(0,0,30,0)
         layout.addLayout(btn_layout)
 
         layout.addWidget(self.clear_db_btn)
+        layout.setContentsMargins(20,20,20,40)
         
         # Initialize with empty model
         self.init_table()

@@ -41,19 +41,32 @@ class HomePresenter:
         login_history = LoginHistoryModel()
         embedding = embed_image(self.current_frame)
         embedding_avg = user_model.get_all_avg_embeddings()
-        # compare_faces(embedding, embedding_avg)
 
-        is_match, similarity, average_e = compare_faces(embedding, embedding_avg)
-        print(is_match)
-        print(similarity)
+        if embedding_avg is None:
+            
+            data = "No users Registered"
+            self.navigator("fail", data)
 
-        fullname, uid, fname, lname = user_model.get_username_from_embedding(average_e)
 
-        data = f"{fullname} Logged in"
+        else:
 
-        login_history.add_login_entry(uid, fname, lname)
+            is_match, similarity, average_e = compare_faces(embedding, embedding_avg)
+            print(is_match)
+            print(similarity)
+            if is_match:
 
-        self.navigator("success", data)
+                fullname, uid, fname, lname = user_model.get_username_from_embedding(average_e)
+
+                data = f"{fullname} Logged in"
+
+                login_history.add_login_entry(uid, fname, lname)
+
+                self.navigator("success", data)
+            
+            else:
+
+                data = "User not found"
+                self.navigator("fail", data)
 
 
     def go_to_new_user(self):

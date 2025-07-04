@@ -3,6 +3,9 @@ from PyQt5.QtWidgets import (QTableView, QVBoxLayout, QWidget,
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtCore import Qt, pyqtSignal
 
+
+from ui.style import apply_green_button_style , apply_red_button_style
+
 class LoginHistoryView(QWidget):
     home_btn_clicked = pyqtSignal()
     back_btn_clicked = pyqtSignal()
@@ -16,25 +19,26 @@ class LoginHistoryView(QWidget):
         # Table View
         self.table_view = QTableView()
         self.table_view.setSortingEnabled(True)
-        self.table_view.setFixedSize(680, 800)
+        self.table_view.setFixedSize(650, 800)
         layout.addWidget(self.table_view)
 
         self.clear_history_btn = QPushButton("Clear History")
-        self.clear_history_btn.setFixedSize(680,60)
+        self.clear_history_btn.setFixedSize(650,60)
+        apply_red_button_style(self.clear_history_btn)
         self.clear_history_btn.clicked.connect(self.clear_history_clicked.emit)
         layout.addWidget(self.clear_history_btn)
 
         self.back_btn = QPushButton("Back")
-        self.back_btn.setFixedSize(680,60)
+        self.back_btn.setFixedSize(650,60)
         self.back_btn.clicked.connect(self.back_btn_clicked.emit)
         layout.addWidget(self.back_btn)
 
         # Home Button
         self.home_btn = QPushButton("Back to Main")
-        self.home_btn.setFixedSize(680, 60)
+        self.home_btn.setFixedSize(650, 60)
         self.home_btn.clicked.connect(self.home_btn_clicked.emit)
         layout.addWidget(self.home_btn)
-
+        layout.setContentsMargins(20,20,20,40)
         # Initialize empty model
         self.init_empty_model()
 

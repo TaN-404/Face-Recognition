@@ -6,6 +6,10 @@ from PyQt5.QtWidgets import QLabel
 from PyQt5.QtGui import QPixmap, QImage, QMovie
 from PyQt5.QtCore import QTimer, pyqtSignal, Qt
 
+
+"""UI"""
+from ui.theme_manager import apply_theme
+
 """OVERLAYS"""
 from overlay.loading_overlay import LoadingOverlay
 
@@ -20,6 +24,7 @@ from views.login_history_view import LoginHistoryView
 from views.user_list_view import UserListView
 from views.user_management_view import UserManagementView
 from views.edit_user_view import EditUserView
+from views.fail_view import FailView
 
 
 
@@ -33,11 +38,15 @@ from presenters.login_history_presenter import LoginHistoryPresenter
 from presenters.user_list_presenter import UserListPresenter
 from presenters.user_management_presenter import UserManagementPresenter
 from presenters.edit_user_presenter import EditUserPresenter
+from presenters.fail_presenter import FailPresenter
 
 # Other views/presenters will be imported as you build them
 
 class MainWindow(QWidget):
     def __init__(self):
+        with open("ui/style.qss", "r") as f:
+            app.setStyleSheet(f.read())
+
         super().__init__()
         self.setWindowTitle("Face Recognition")
         self.setFixedSize(720, 1080)
@@ -88,6 +97,14 @@ class MainWindow(QWidget):
                 self.stack.setCurrentWidget(self.success_view)
                 self.succes_presenter = SuccessPresenter(self.success_view, self.switch_page, data)
 
+
+            elif page_name == "fail":
+                self.fail_view = FailView(data)
+                self.stack.addWidget(self.fail_view)
+                self.stack.setCurrentWidget(self.fail_view)
+                self.fail_presenter = FailPresenter(self.fail_view, self.switch_page, data)
+
+
             elif page_name == "option":
                 self.option_view = OptionView()
                 self.stack.addWidget(self.option_view)
@@ -125,6 +142,7 @@ class MainWindow(QWidget):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    apply_theme(app, "light")
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())

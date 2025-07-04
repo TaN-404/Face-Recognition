@@ -15,19 +15,21 @@ class UserListView(QWidget):
         # Table View
         self.table_view = QTableView()
         self.table_view.setSortingEnabled(True)
-        self.table_view.setFixedSize(680, 770)
+        self.table_view.setFixedSize(650, 770)
         layout.addWidget(self.table_view)
 
         self.back_btn = QPushButton("Back")
-        self.back_btn.setFixedSize(680,70)
+        self.back_btn.setFixedSize(650,90)
         self.back_btn.clicked.connect(self.back_btn_clicked.emit)
         layout.addWidget(self.back_btn)
 
         # Home Button
         self.home_btn = QPushButton("Back to Main")
-        self.home_btn.setFixedSize(680, 90)
+        self.home_btn.setFixedSize(650, 90)
         self.home_btn.clicked.connect(self.home_btn_clicked.emit)
         layout.addWidget(self.home_btn)
+
+        layout.setContentsMargins(20,20,20,40)
 
         # Initialize empty model
         self.init_empty_model()
