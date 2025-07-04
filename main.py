@@ -11,6 +11,7 @@ from views.capture_view import CaptureView
 from views.success_view import SuccessView
 from views.option_view import OptionView
 from views.login_history_view import LoginHistoryView
+from views.user_list_view import UserListView
 
 
 """PRESENTERS"""
@@ -20,6 +21,7 @@ from presenters.capture_presenter import CapturePresenter
 from presenters.success_presenter import SuccessPresenter
 from presenters.option_presenter import OptionPresenter
 from presenters.login_history_presenter import LoginHistoryPresenter
+from presenters.user_list_presenter import UserListPresenter
 
 # Other views/presenters will be imported as you build them
 
@@ -99,6 +101,13 @@ class MainWindow(QWidget):
             self.stack.addWidget(self.login_history_view)
             self.stack.setCurrentWidget(self.login_history_view)
             self.login_history_presenter = LoginHistoryPresenter(self.login_history_view, self.switch_page)
+        
+        elif page_name == "users_list":
+            self.user_list_view = UserListView()
+            self.stack.addWidget(self.user_list_view)
+            self.stack.setCurrentWidget(self.user_list_view)
+            self.user_list_presenter = UserListPresenter(self.user_list_view, self.switch_page)
+
 
 
 

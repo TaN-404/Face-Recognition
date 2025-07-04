@@ -2,6 +2,7 @@ import sqlite3
 import pickle
 import os
 import numpy as np
+from datetime import datetime
 
 
 class UserModel:
@@ -22,30 +23,38 @@ class UserModel:
             embedding1 BLOB,
             embedding2 BLOB,
             embedding3 BLOB,
-            avg_embedding BLOB
+            avg_embedding BLOB,
+            date TEXT,
+            time TEXT
         )
         """)
         self.conn.commit()
 
     def save_user(self, uid, fname, lname, image_paths, embeddings, avg_embedding):
+        now = datetime.now()
+        date_str = now.strftime("%Y-%m-%d")
+        time_str = now.strftime("%H:%M:%S")
+
         cur = self.conn.cursor()
         cur.execute("""
         INSERT INTO user_table (uid, fname, lname, image1_path, image2_path, image3_path,
-                                embedding1, embedding2, embedding3, avg_embedding)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                embedding1, embedding2, embedding3, avg_embedding, date, time)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             uid, fname, lname,
             image_paths[0], image_paths[1], image_paths[2],
             pickle.dumps(embeddings[0]),
             pickle.dumps(embeddings[1]),
             pickle.dumps(embeddings[2]),
-            pickle.dumps(avg_embedding)
+            pickle.dumps(avg_embedding),
+            date_str,
+            time_str
         ))
         self.conn.commit()
 
     def get_all_users(self):
         cur = self.conn.cursor()
-        return cur.execute("SELECT uid, fname, lname FROM user_table").fetchall()
+        return cur.execute("SELECT uid, fname, lname, date, time FROM user_table").fetchall()
 
     def get_user_embedding(self, uid):
         cur = self.conn.cursor()
@@ -82,9 +91,6 @@ class UserModel:
         
         # Reset auto-increment counter (if table has INTEGER PRIMARY KEY)
         cursor.execute(f"DELETE FROM sqlite_sequence WHERE name='user_table';")
-        
-        # Compact database
-        cursor.execute("VACUUM;")
         
         self.conn.commit()
 

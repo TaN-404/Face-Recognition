@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel, QMessageBox
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import pyqtSignal, Qt
 
@@ -39,3 +39,19 @@ class OptionView(QWidget):
         self.back_button.setFixedSize(680,70)
         self.back_button.clicked.connect(self.back_button_clicked.emit)
         layout.addWidget(self.back_button)
+
+    def confirm_action(parent=None):
+        reply = QMessageBox.question(
+            parent,
+            "Confirm",
+            "Are you sure you want to proceed?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
+        )
+
+        if reply == QMessageBox.Yes:
+            print("User confirmed.")
+            return True
+        else:
+            print("User cancelled.")
+            return False
