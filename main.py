@@ -3,7 +3,7 @@ from insightface.app import FaceAnalysis
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QStackedWidget
 from PyQt5.QtWidgets import QLabel
 
-from PyQt5.QtGui import QPixmap, QImage, QMovie
+from PyQt5.QtGui import QPixmap, QImage, QMovie, QIcon
 from PyQt5.QtCore import QTimer, pyqtSignal, Qt
 
 
@@ -47,7 +47,10 @@ class MainWindow(QWidget):
         with open("ui/style.qss", "r") as f:
             app.setStyleSheet(f.read())
 
+
+
         super().__init__()
+        self.setWindowIcon(QIcon("assets/logo/icon.png"))
         self.setWindowTitle("Face Recognition")
         self.setFixedSize(720, 1080)
 
