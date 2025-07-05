@@ -26,6 +26,7 @@ class CaptureView(QWidget):
 
         self.status_label = QLabel("Captured: 0 / 3")
         self.status_label.setFixedSize(650,50)
+        self.status_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.status_label)
 
         self.capture_button = QPushButton("Capture")

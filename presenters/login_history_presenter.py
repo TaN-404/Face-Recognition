@@ -38,7 +38,6 @@ class LoginHistoryPresenter:
 
     def go_to_home(self):
         """Handle navigation back to home"""
-        print("Back button pressed")
         self.navigator("home")
 
     def go_back(self):

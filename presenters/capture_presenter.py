@@ -73,7 +73,6 @@ class CapturePresenter:
 
         fullname = f"{self.user_data["fname"]} {self.user_data["lname"]}"
 
-        print("✅ User saved successfully!")
         self.timer.stop()
         self.cap.release()
         data = f"{fullname} Registered"

@@ -56,6 +56,10 @@ class UserModel:
     def get_all_users(self):
         cur = self.conn.cursor()
         return cur.execute("SELECT uid, fname, lname, date, time FROM user_table").fetchall()
+    
+    def get_all_uid(self):
+        cur = self.conn.cursor()
+        return cur.execute("SELECT uid FROM user_table").fetchall()
 
     def get_user_embedding(self, uid):
         cur = self.conn.cursor()

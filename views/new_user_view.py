@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QLabel, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QLabel, QHBoxLayout, QMessageBox
 from PyQt5.QtCore import pyqtSignal, Qt
 
 
@@ -65,3 +65,7 @@ class NewUserView(QWidget):
         self.fname_input.clear()
         self.lname_input.clear()
         self.uid_input.clear()
+
+    def warning(self, message):
+        QMessageBox.warning(self, "Warning", message)
+

@@ -15,5 +15,4 @@ class SuccessPresenter:
 
 
     def go_to_home(self):
-            print("back button pressed")
             self.navigator("home")
