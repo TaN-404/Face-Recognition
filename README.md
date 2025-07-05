@@ -57,6 +57,22 @@ python main.py
 
 ## Sample Screenshots
 
+![Login](assets/screenshots/login.png)
+![Registration](assets/screenshots/new_user.png)
+![Options](assets/screenshots/option.png)
+
+
 ## Future Improvements
 
+- Admin login
+
+- Attendance report export (CSV, PDF)
+
+- Liveness detection / anti-spoofing
+
+- Multi-language support
+
 ## License
+
+This project is licensed under the [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) license.  
+**Commercial use is prohibited** without the author's permission.
