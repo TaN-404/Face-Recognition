@@ -44,7 +44,7 @@ Face-Recognition/
 
 ```bash
 git clone https://github.com/TaN-404/Face-Recognition.git
-cd face-recognition-attendance
+cd Face-Recognition
 python -m venv env
 env\Scripts\activate          # Windows
 # OR
